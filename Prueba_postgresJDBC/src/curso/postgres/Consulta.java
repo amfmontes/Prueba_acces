@@ -25,19 +25,24 @@ public class Consulta {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/peliculas", "postgres", "123");
-		
+		Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+		String msAccDB = "C:\\Users\\Curso mañana\\Desktop\\bases de datos\\Northwind.mdb";
+        String dbURL = "jdbc:ucanaccess://" + msAccDB; 
+
+		// Step 2.A: Create and get connection using DriverManager class
+		Connection conn = DriverManager.getConnection(dbURL);
+
+      
 		Statement st = conn.createStatement();
 		
 		
 		System.out.println("-------------------------LISTAR----------------------------------------");
 
-		ResultSet rs = st.executeQuery("select * from peliculas");
+		ResultSet rs = st.executeQuery("select * from customers");
 		while (rs.next()) {
-			System.out.println("Titulo: " + rs.getString("titulo"));
-			System.out.println("Precio: " + rs.getFloat("precio"));
-			System.out.println("Fecha: " + rs.getDate("fecha"));
+			System.out.println("id: " + rs.getString(1));
+			System.out.println("Precio: " + rs.getString(2));
+			System.out.println("Fecha: " + rs.getString(3));
 		}
 		
 		
@@ -49,30 +54,30 @@ public class Consulta {
 //		
 		
 		
-		System.out.println("-------------------------LISTAR CON PREPARESTATEMENT PIDIENDO TITULO----------------------------------------");
-		
-		PreparedStatement pstmt = conn.prepareStatement("select * from peliculas where titulo=?");
-		pstmt.setString(1, "Pulgarcita");
-		
-		ResultSet rs2 = pstmt.executeQuery();
-		while (rs2.next()) {
-			System.out.println("Titulo: " + rs2.getString("titulo"));
-			System.out.println("Precio: " + rs2.getFloat("precio"));
-			System.out.println("Fecha: " + rs2.getDate("fecha"));
-		}
-		
-		
-		
-		System.out.println("-------------------------LISTAR CON CALLABLESTATEMENT----------------------------------------");
-
-		CallableStatement cstmt = conn.prepareCall("{call peliculas_list()}");
-		
-		ResultSet rs3 = cstmt.executeQuery();
-		while (rs3.next()) {
-			System.out.println("Titulo: " + rs3.getString("titulo"));
-			System.out.println("Precio: " + rs3.getFloat("precio"));
-			System.out.println("Fecha: " + rs3.getDate("fecha"));
-		}
+//		System.out.println("-------------------------LISTAR CON PREPARESTATEMENT PIDIENDO TITULO----------------------------------------");
+//		
+//		PreparedStatement pstmt = conn.prepareStatement("select * from peliculas where titulo=?");
+//		pstmt.setString(1, "Pulgarcita");
+//		
+//		ResultSet rs2 = pstmt.executeQuery();
+//		while (rs2.next()) {
+//			System.out.println("Titulo: " + rs2.getString("titulo"));
+//			System.out.println("Precio: " + rs2.getFloat("precio"));
+//			System.out.println("Fecha: " + rs2.getDate("fecha"));
+//		}
+//		
+//		
+//		
+//		System.out.println("-------------------------LISTAR CON CALLABLESTATEMENT----------------------------------------");
+//
+//		CallableStatement cstmt = conn.prepareCall("{call peliculas_list()}");
+//		
+//		ResultSet rs3 = cstmt.executeQuery();
+//		while (rs3.next()) {
+//			System.out.println("Titulo: " + rs3.getString("titulo"));
+//			System.out.println("Precio: " + rs3.getFloat("precio"));
+//			System.out.println("Fecha: " + rs3.getDate("fecha"));
+//		}
 		
 		
 		
